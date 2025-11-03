@@ -1,0 +1,149 @@
+ARCH LINUX RICH PRESENCE - PRIVACY POLICY
+
+Last Updated: November 2, 2025
+
+1. INTRODUCTION
+
+This Privacy Policy explains how Arch Linux Rich Presence ("the Application", "we", "our") collects, uses, stores, and shares information when you use the Application. Your privacy is important to us, and we are committed to being transparent about our data practices.
+
+2. INFORMATION WE COLLECT
+
+2.1. System Information
+The Application collects the following system information:
+   - Hostname
+   - CPU model and specifications
+   - GPU model and specifications
+   - RAM usage and capacity
+   - Disk usage and capacity
+   - Display resolution and configuration
+   - Operating system information (OS name, version)
+   - Kernel version
+   - Window manager information
+   - Shell type and version
+   - Installed package counts
+   - System theme and font information
+   - System uptime
+   - Operating system installation age
+
+2.2. Activity Information
+The Application collects:
+   - Active window titles and application names (from Hyprland or X11)
+   - Terminal command history (from bash, zsh, or fish history files)
+   - Last executed terminal commands
+
+2.3. Discord Integration
+The Application communicates with Discord's Rich Presence API using your Discord Application Client ID. This does not include authentication tokens or personal Discord account information.
+
+3. HOW WE USE YOUR INFORMATION
+
+3.1. Rich Presence Display
+   - System and activity information is used to populate your Discord Rich Presence status
+   - Information is displayed to anyone who can view your Discord profile when Rich Presence is active
+
+3.2. System Information Hosting
+   - System information is formatted and uploaded to 0x0.st hosting service approximately every 30 minutes
+   - Uploaded information is accessible via public URLs that are included in Rich Presence buttons
+   - This allows others to view your complete system information by clicking the "View System Info" button
+
+3.3. Local Processing
+   - All data processing occurs locally on your device
+   - No data is sent to servers controlled by the Application developers
+
+4. DATA STORAGE AND RETENTION
+
+4.1. Local Storage
+   - Configuration files and status information are stored locally on your system
+   - Terminal history files are read directly from your system (not copied or stored by the Application)
+
+4.2. Third-Party Hosting (0x0.st)
+   - System information uploaded to 0x0.st is subject to their terms of service and retention policies
+   - Uploaded files may be accessible indefinitely via the generated URLs
+   - We do not control or manage the data stored on 0x0.st
+
+5. PRIVACY CONTROLS
+
+5.1. Privacy Toggle
+   - The Application includes a privacy mode that can be enabled to stop displaying Rich Presence
+   - When privacy mode is active, no information is displayed to Discord
+   - You can toggle privacy mode at any time through Waybar or the toggle script
+
+5.2. Data Collection Control
+   - You control what information is collected by:
+     - Modifying which terminal history files are monitored
+     - Adjusting system information collection settings in the configuration
+     - Disabling specific features if desired
+
+6. DATA SHARING AND DISCLOSURE
+
+6.1. Discord Rich Presence
+   - Information displayed in Rich Presence is visible to anyone who can view your Discord profile
+   - This includes users on your friends list, members of shared servers, and potentially others depending on your Discord privacy settings
+
+6.2. Public URLs (0x0.st)
+   - System information uploaded to 0x0.st is accessible to anyone with the URL
+   - URLs are included in Rich Presence buttons, making them publicly accessible
+   - We cannot control who accesses these URLs
+
+6.3. Third-Party Services
+   - We use 0x0.st for hosting system information files
+   - We use Discord's Rich Presence API for status display
+   - Please review these services' privacy policies for information on how they handle data
+
+7. SECURITY
+
+7.1. Local Processing
+   - All data processing occurs on your local device
+   - No network communication occurs except for:
+     - Discord Rich Presence API (IPC connection to local Discord client)
+     - 0x0.st uploads for system information hosting
+
+7.2. No Authentication Required
+   - The Application does not require user authentication
+   - It operates entirely locally using your Discord Application Client ID
+
+8. CHILDREN'S PRIVACY
+
+The Application is not intended for users under the age of 13. We do not knowingly collect information from children. If you are under 13, please do not use this Application.
+
+9. YOUR RIGHTS
+
+9.1. Access and Control
+   - You can view what information is being displayed through the Rich Presence status
+   - You can disable Rich Presence at any time using the privacy toggle
+   - You can modify configuration files to adjust data collection
+
+9.2. Data Deletion
+   - Information uploaded to 0x0.st may persist according to their retention policies
+   - We cannot delete information once uploaded to third-party services
+   - Local data can be deleted by uninstalling the Application
+
+10. CHANGES TO THIS PRIVACY POLICY
+
+10.1. We may update this Privacy Policy from time to time
+10.2. Material changes will be communicated through the project repository
+10.3. Continued use of the Application after changes constitutes acceptance of the updated Privacy Policy
+
+11. THIRD-PARTY SERVICES
+
+11.1. Discord
+   - The Application integrates with Discord's Rich Presence API
+   - Discord's privacy practices are governed by Discord's Privacy Policy
+   - Information displayed in Rich Presence is subject to Discord's terms of service
+
+11.2. 0x0.st
+   - System information is hosted on 0x0.st
+   - 0x0.st's privacy practices are governed by their own policies
+   - We are not responsible for how 0x0.st handles or retains uploaded data
+
+12. CONTACT INFORMATION
+
+12.1. For questions about this Privacy Policy or data practices, please refer to the project repository or contact the maintainers through appropriate channels.
+
+13. ACKNOWLEDGMENT
+
+13.1. By using Arch Linux Rich Presence, you acknowledge that you have read, understood, and agree to this Privacy Policy.
+
+---
+
+END OF PRIVACY POLICY
+

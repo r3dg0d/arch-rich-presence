@@ -1,0 +1,25 @@
+{
+  "name": "arch-rich-presence",
+  "version": "1.0.0",
+  "description": "Discord Rich Presence for Arch Linux with Hyprland window tracking",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
+  },
+  "keywords": [
+    "discord",
+    "rich-presence",
+    "hyprland",
+    "arch-linux",
+    "activity-tracker"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1"
+  }
+}

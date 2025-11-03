@@ -1,0 +1,82 @@
+ARCH LINUX RICH PRESENCE - TERMS OF SERVICE
+
+Last Updated: November 2, 2025
+
+1. ACCEPTANCE OF TERMS
+
+By using Arch Linux Rich Presence ("the Application", "the Service"), you agree to be bound by these Terms of Service ("Terms"). If you do not agree to these Terms, you must not use the Application.
+
+2. DESCRIPTION OF SERVICE
+
+Arch Linux Rich Presence is a desktop application that displays information about your system activity, active windows, terminal commands, and system specifications as a Discord Rich Presence status. The Application runs locally on your device and communicates with Discord's Rich Presence API.
+
+3. USER RESPONSIBILITIES
+
+3.1. You are responsible for maintaining the security and privacy of your Discord application credentials (Client ID) used with this Application.
+
+3.2. You are responsible for understanding what information is being displayed in your Rich Presence and ensuring it complies with your privacy preferences and any applicable laws or regulations.
+
+3.3. You must not use the Application to display sensitive, illegal, or inappropriate content through Rich Presence.
+
+3.4. You must ensure you have the legal right to collect and display any system information or activity data that the Application processes.
+
+4. PRIVACY AND DATA COLLECTION
+
+4.1. The Application collects and processes system information including:
+   - Active window titles and application names
+   - Terminal command history
+   - System specifications (CPU, GPU, RAM, OS, kernel, etc.)
+   - Uptime and system age information
+
+4.2. System information is periodically uploaded to 0x0.st hosting service every 30 minutes and may be accessible via public URLs. This information is uploaded only when the Application is running and active.
+
+4.3. The Application includes a privacy toggle feature that allows you to disable Rich Presence at any time.
+
+4.4. You are responsible for reviewing the Privacy Policy to understand how your data is handled.
+
+5. LIMITATION OF LIABILITY
+
+5.1. THE APPLICATION IS PROVIDED "AS IS" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED.
+
+5.2. The Application developers and contributors are not responsible for:
+   - Any data loss or security breaches
+   - Exposure of sensitive information through Rich Presence
+   - Any consequences resulting from the display of system information
+   - Issues with third-party services (Discord, 0x0.st)
+
+5.3. You acknowledge that displaying system information publicly may have privacy and security implications.
+
+6. INTELLECTUAL PROPERTY
+
+6.1. The Application and its source code are provided under the MIT License, as specified in the project repository.
+
+6.2. You retain all rights to any modifications you make to the Application.
+
+7. MODIFICATIONS TO TERMS
+
+7.1. These Terms may be updated from time to time. Continued use of the Application after changes constitutes acceptance of the modified Terms.
+
+7.2. Material changes will be communicated through the project repository or application updates.
+
+8. TERMINATION
+
+8.1. You may stop using the Application at any time by terminating the process or disabling the service.
+
+8.2. We reserve the right to discontinue the Application or modify its functionality at any time.
+
+9. GOVERNING LAW
+
+9.1. These Terms are governed by applicable local laws where the Application is used.
+
+10. CONTACT INFORMATION
+
+10.1. For questions about these Terms, please refer to the project repository or contact the maintainers through appropriate channels.
+
+11. ACKNOWLEDGMENT
+
+11.1. By using Arch Linux Rich Presence, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.
+
+---
+
+END OF TERMS OF SERVICE
+

@@ -1,0 +1,34 @@
+{
+  "discord": {
+    "clientId": "YOUR_DISCORD_APPLICATION_ID",
+    "updateInterval": 5000
+  },
+  "hyprland": {
+    "socketPath": "/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2"
+  },
+  "privacy": {
+    "defaultState": true,
+    "showIpAddress": false,
+    "showUsername": false,
+    "sanitizePaths": true
+  },
+  "display": {
+    "showTerminalCommands": true,
+    "showSystemInfo": true,
+    "showWindowTitle": true,
+    "maxTitleLength": 128,
+    "maxCommandLength": 64
+  },
+  "terminal": {
+    "historyFile": "~/.bash_history",
+    "alternativeHistoryFiles": [
+      "~/.zsh_history",
+      "~/.fish_history"
+    ]
+  },
+  "systemd": {
+    "serviceName": "arch-rich-presence",
+    "userService": true
+  }
+}
+
