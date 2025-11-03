@@ -23,6 +23,37 @@ A Discord Rich Presence client for Arch Linux with Hyprland that shows what you'
 
 ## Installation
 
+### Option 1: Install from AUR (Recommended)
+
+Install using your favorite AUR helper:
+
+```bash
+# Using yay
+yay -S arch-rich-presence
+
+# Using paru
+paru -S arch-rich-presence
+
+# Or manually
+git clone https://aur.archlinux.org/arch-rich-presence.git
+cd arch-rich-presence
+makepkg -si
+```
+
+After installation:
+1. Configure your Discord Application ID:
+   ```bash
+   # Config will be at ~/.config/arch-rich-presence/config.json
+   nano ~/.config/arch-rich-presence/config.json
+   ```
+2. Enable and start the service:
+   ```bash
+   systemctl --user enable arch-rich-presence
+   systemctl --user start arch-rich-presence
+   ```
+
+### Option 2: Manual Installation
+
 1. **Clone or navigate to the project directory:**
    ```bash
    cd ~/Documents/arch-rich-presence
@@ -40,16 +71,25 @@ A Discord Rich Presence client for Arch Linux with Hyprland that shows what you'
    - Go to "Rich Presence" → "Art Assets"
    - Upload images (optional):
      - `arch-logo` (large image, 512x512px)
-     - `privacy` (small image, 128x128px)
-     - `system` (small image, 128x128px)
+     - `active` (small image, 128x128px) - shown when Rich Presence is active
+     - `privacymode` (small image, 128x128px) - shown in privacy mode
    - Copy the **Application ID**
-   - Edit `config.json` and paste the Application ID in `discord.clientId`
+   - Edit `config.json` (located at `~/.config/arch-rich-presence/config.json` for AUR install, or in the project directory for manual install) and paste the Application ID in `discord.clientId`
 
 4. **Set up shell hook for real-time command tracking (optional but recommended):**
+   
+   **AUR Installation:**
+   ```bash
+   arch-rich-presence-setup-hook
+   source ~/.bashrc  # or restart your terminal
+   ```
+   
+   **Manual Installation:**
    ```bash
    ./setup-shell-hook.sh
    source ~/.bashrc  # or restart your terminal
    ```
+   
    This enables real-time command tracking. Without it, commands only update when you exit your terminal.
 
 5. **Start the service:**
@@ -110,6 +150,12 @@ systemctl --user status arch-rich-presence
 
 ### Toggle Rich Presence On/Off
 
+**AUR Installation:**
+```bash
+arch-rich-presence-toggle
+```
+
+**Manual Installation:**
 ```bash
 ./toggle.sh
 ```
@@ -134,12 +180,18 @@ Add to your `~/.config/waybar/config`:
   ],
   "custom/arch-rp": {
     "format": "{}",
-    "exec": "~/Documents/arch-rich-presence/waybar-status.sh",
+    "exec": "arch-rich-presence-waybar",
     "interval": 5,
-    "on-click": "~/Documents/arch-rich-presence/toggle.sh",
+    "on-click": "arch-rich-presence-toggle",
     "tooltip": true
   }
 }
+```
+
+**Note:** If you installed manually (not from AUR), use full paths:
+```json
+"exec": "~/Documents/arch-rich-presence/waybar-status.sh",
+"on-click": "~/Documents/arch-rich-presence/toggle.sh",
 ```
 
 Add CSS styling to `~/.config/waybar/style.css`:
@@ -193,7 +245,9 @@ systemctl --user disable arch-rich-presence
 
 ### Terminal commands not showing
 
-1. **For real-time updates**: Run `./setup-shell-hook.sh` to set up shell hooks
+1. **For real-time updates**: 
+   - AUR: Run `arch-rich-presence-setup-hook` to set up shell hooks
+   - Manual: Run `./setup-shell-hook.sh` to set up shell hooks
 2. **For history-based tracking**: Check that your shell history file exists and is being written to
 3. Verify the path in `config.json` matches your shell's history file location
 4. Note: Without shell hooks, commands only update when you exit your terminal (when history is written to disk)
