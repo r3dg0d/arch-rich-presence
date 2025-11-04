@@ -12,7 +12,27 @@ const http = require('http');
 class ArchRichPresence extends EventEmitter {
     constructor(configPath = null) {
         super();
-        this.configPath = configPath || path.join(__dirname, '..', 'config.json');
+        // Use XDG Base Directory Specification for config location
+        if (!configPath) {
+            // Use XDG_CONFIG_HOME or default to ~/.config
+            const xdgConfigHome = process.env.XDG_CONFIG_HOME || path.join(os.homedir(), '.config');
+            const userConfigPath = path.join(xdgConfigHome, 'arch-rich-presence', 'config.json');
+            
+            // Check if user config exists, otherwise fall back to system location
+            if (fs.existsSync(userConfigPath)) {
+                configPath = userConfigPath;
+            } else {
+                // Fallback to system location (for backward compatibility)
+                const systemConfigPath = path.join(__dirname, '..', 'config.json');
+                if (fs.existsSync(systemConfigPath)) {
+                    configPath = systemConfigPath;
+                } else {
+                    // Default to user config location (will be created if needed)
+                    configPath = userConfigPath;
+                }
+            }
+        }
+        this.configPath = configPath;
         this.config = this.loadConfig();
         this.rpc = null;
         this.isActive = !this.config.privacy.defaultState;
@@ -32,10 +52,38 @@ class ArchRichPresence extends EventEmitter {
 
     loadConfig() {
         try {
+            // Ensure config directory exists
+            const configDir = path.dirname(this.configPath);
+            if (!fs.existsSync(configDir)) {
+                fs.mkdirSync(configDir, { recursive: true });
+            }
+            
+            // If config doesn't exist, try to copy from example
+            if (!fs.existsSync(this.configPath)) {
+                // Try to find example config in common locations
+                const examplePaths = [
+                    path.join(os.homedir(), '.config', 'arch-rich-presence', 'config.example.json'),
+                    '/usr/share/arch-rich-presence/config.example.json',
+                    path.join(__dirname, '..', 'config.example.json'),
+                    path.join(__dirname, '..', '..', 'config.example.json')
+                ];
+                
+                for (const examplePath of examplePaths) {
+                    if (fs.existsSync(examplePath)) {
+                        console.log(`Creating config from example: ${examplePath}`);
+                        fs.copyFileSync(examplePath, this.configPath);
+                        console.log(`Config file created at: ${this.configPath}`);
+                        console.log('Please edit it and set your Discord Application ID');
+                        break;
+                    }
+                }
+            }
+            
             const config = JSON.parse(fs.readFileSync(this.configPath, 'utf8'));
             return config;
         } catch (error) {
             console.error(`Failed to load config: ${error.message}`);
+            console.log(`Config path: ${this.configPath}`);
             console.log('Using default configuration. Please copy config.example.json to config.json');
             return {
                 discord: { clientId: null, updateInterval: 5000 },
@@ -1009,7 +1057,13 @@ class ArchRichPresence extends EventEmitter {
 // CLI interface
 if (require.main === module) {
     const args = process.argv.slice(2);
-    const rp = new ArchRichPresence();
+    // Allow config path to be passed as first argument, otherwise auto-detect
+    let configPath = null;
+    if (args.length > 0 && args[0] && !args[0].startsWith('-') && args[0] !== 'toggle') {
+        configPath = args[0];
+        args.shift(); // Remove config path from args
+    }
+    const rp = new ArchRichPresence(configPath);
 
     if (args[0] === 'toggle') {
         // Toggle mode - read current status and flip it
