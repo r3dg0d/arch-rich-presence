@@ -94,15 +94,43 @@ class ArchRichPresence extends EventEmitter {
     }
 
     saveStatus() {
+        // Read existing status to preserve customStatus if it exists
+        let existingStatus = {};
+        try {
+            if (fs.existsSync(this.statusFile)) {
+                existingStatus = JSON.parse(fs.readFileSync(this.statusFile, 'utf8'));
+            }
+        } catch (error) {
+            // Ignore errors when reading existing status
+        }
+        
         const status = {
             active: this.isActive,
             timestamp: Date.now()
         };
+        
+        // Preserve customStatus if it exists
+        if (existingStatus.customStatus !== undefined) {
+            status.customStatus = existingStatus.customStatus;
+        }
+        
         try {
             fs.writeFileSync(this.statusFile, JSON.stringify(status));
         } catch (error) {
             console.error('Failed to save status:', error.message);
         }
+    }
+
+    getCustomStatus() {
+        try {
+            if (fs.existsSync(this.statusFile)) {
+                const status = JSON.parse(fs.readFileSync(this.statusFile, 'utf8'));
+                return status.customStatus || null;
+            }
+        } catch (error) {
+            // Ignore errors
+        }
+        return null;
     }
 
     async connectDiscord() {
@@ -803,7 +831,78 @@ class ArchRichPresence extends EventEmitter {
             return;
         }
 
-        // Get current data
+        // Check if custom status is set
+        const customStatus = this.getCustomStatus();
+        
+        // If custom status is set, use it instead of window/command info
+        if (customStatus && customStatus.trim()) {
+            // Use custom status
+            const sysInfo = await this.getSystemInfo();
+            this.systemInfo = sysInfo;
+            
+            const details = customStatus.length > 128 ? customStatus.substring(0, 125) + '...' : customStatus;
+            const state = null; // Custom status doesn't need a state line
+            
+            // Build activity object matching Discord's Rich Presence structure
+            const activity = {
+                details: details,
+                largeImageKey: 'arch-logo',
+                largeImageText: sysInfo ? `Arch Linux - ${sysInfo.os || 'Arch Linux'}` : 'Arch Linux',
+                smallImageKey: 'active',
+                smallImageText: 'Rich Presence Active',
+                startTimestamp: Math.floor(Date.now() / 1000), // Discord RPC expects seconds
+                instance: false // Required field - indicates if this is an instanced game
+            };
+            
+            // Add button to view full system info online if URL is available
+            if (this.systemInfoUrl) {
+                const buttonLabel = 'View System Info';
+                activity.buttons = [
+                    { label: buttonLabel, url: this.systemInfoUrl }
+                ];
+            }
+            
+            // Send custom status activity
+            try {
+                if (activity.buttons) {
+                    // Clean up buttons array - ensure proper format
+                    if (!Array.isArray(activity.buttons)) {
+                        activity.buttons = [activity.buttons];
+                    }
+                    
+                    activity.buttons = activity.buttons
+                        .map(btn => {
+                            if (!btn || typeof btn !== 'object') return null;
+                            const label = String(btn.label || '').substring(0, 32).trim();
+                            const url = String(btn.url || '').trim();
+                            
+                            if (!label || !url || !url.startsWith('https://')) {
+                                return null;
+                            }
+                            
+                            return { label, url };
+                        })
+                        .filter(btn => btn !== null);
+                    
+                    if (activity.buttons.length > 2) {
+                        activity.buttons = activity.buttons.slice(0, 2);
+                    }
+                    
+                    if (activity.buttons.length === 0) {
+                        delete activity.buttons;
+                    }
+                }
+                
+                await this.rpc.setActivity(activity);
+                this.saveStatus();
+                return;
+            } catch (error) {
+                console.error('❌ Failed to update Rich Presence with custom status:', error.message);
+                return;
+            }
+        }
+
+        // Get current data (normal mode - no custom status)
         const window = await this.getActiveWindow();
         const command = await this.getLastTerminalCommand();
         const sysInfo = await this.getSystemInfo();
@@ -995,8 +1094,9 @@ class ArchRichPresence extends EventEmitter {
             process.exit(1);
         }
 
-        // Setup status file watching for external toggles
+        // Setup status file watching for external toggles and custom status changes
         let lastStatusTime = 0;
+        let lastCustomStatus = null;
         this.watchInterval = setInterval(() => {
             try {
                 if (fs.existsSync(this.statusFile)) {
@@ -1012,6 +1112,15 @@ class ArchRichPresence extends EventEmitter {
                         // Clear toggle flag after processing
                         delete status.toggle;
                         fs.writeFileSync(this.statusFile, JSON.stringify(status));
+                    }
+                    // Check if custom status changed
+                    const currentCustomStatus = status.customStatus || null;
+                    if (currentCustomStatus !== lastCustomStatus) {
+                        lastCustomStatus = currentCustomStatus;
+                        if (this.isActive) {
+                            console.log(`Custom status ${currentCustomStatus ? `updated: "${currentCustomStatus}"` : 'cleared'}`);
+                            this.updateRichPresence();
+                        }
                     }
                 }
             } catch (error) {

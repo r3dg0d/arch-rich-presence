@@ -24,12 +24,27 @@ function toggleStatus() {
     const currentStatus = getCurrentStatus();
     const newStatus = !currentStatus;
     
+    // Read existing status to preserve customStatus
+    let existingStatus = {};
+    try {
+        if (fs.existsSync(statusFile)) {
+            existingStatus = JSON.parse(fs.readFileSync(statusFile, 'utf8'));
+        }
+    } catch (error) {
+        // Ignore errors
+    }
+    
     // Write toggle command to status file
     const status = {
         active: newStatus,
         timestamp: Date.now(),
         toggle: true
     };
+    
+    // Preserve customStatus if it exists
+    if (existingStatus.customStatus !== undefined) {
+        status.customStatus = existingStatus.customStatus;
+    }
     
     fs.writeFileSync(statusFile, JSON.stringify(status));
     

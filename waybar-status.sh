@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Get the actual script directory, even when called via symlink
+SCRIPT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")" 2>/dev/null && pwd || cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 STATUS_FILE="${TMPDIR:-/tmp}/arch-rp-status.json"
 
 if [ -f "$STATUS_FILE" ]; then

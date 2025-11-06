@@ -8,6 +8,7 @@ A Discord Rich Presence client for Arch Linux with Hyprland that shows what you'
 - ⌨️ **Terminal Command Tracking**: Displays your last executed terminal command with real-time updates (via shell hooks)
 - 🖥️ **System Information**: View comprehensive system info via button link (CPU, GPU, RAM, Disk, OS, Kernel, WM, Shell, Packages, Theme, Font, Uptime, OS Age)
 - 🔒 **Privacy Mode**: Toggle Rich Presence on/off via notification or waybar widget
+- ✏️ **Custom Status**: Set a custom status message instead of showing your actual activity
 - 🚀 **Auto-start**: Runs automatically on system boot via systemd user service
 - 🎨 **Customizable**: Extensive configuration options via `config.json`
 - 🔗 **System Info Button**: Clickable button in Rich Presence to view full system information online
@@ -161,6 +162,36 @@ arch-rich-presence-toggle
 ```
 
 This will toggle between active mode and privacy mode without stopping the service.
+
+### Set Custom Status
+
+You can set a custom status text that will be displayed instead of your actual activity (window titles and commands). This is useful when you want to show a custom message while still being out of privacy mode.
+
+**AUR Installation:**
+```bash
+# Set custom status
+arch-rich-presence-set-status "Your custom status text here"
+
+# Clear custom status (return to normal activity display)
+arch-rich-presence-set-status --clear
+
+# View current custom status
+arch-rich-presence-set-status --get
+```
+
+**Manual Installation:**
+```bash
+# Set custom status
+./set-status.sh "Your custom status text here"
+
+# Clear custom status (return to normal activity display)
+./set-status.sh --clear
+
+# View current custom status
+./set-status.sh --get
+```
+
+When a custom status is set, it will be displayed in Discord instead of your current window/command information. The custom status remains active until you clear it or restart the service. Privacy mode will still override custom status.
 
 ### View Logs
 

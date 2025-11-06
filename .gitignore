@@ -1,41 +1,6 @@
-# Dependencies
 node_modules/
-
-# Configuration files with sensitive data
 config.json
-
-# Logs
 *.log
-npm-debug.log*
-
-# OS files
 .DS_Store
-Thumbs.db
-
-# Editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# Temporary files
-/tmp/
-*.tmp
-
-# Systemd service (user-specific paths)
-arch-rich-presence.service
-
-# Test files
-test-hastebin.js
-
-# Upload scripts (may contain API keys/tokens if modified)
-# Comment out if you want to include them
-upload-to-gist-api.sh
-upload-to-gist.sh
-upload-pp.sh
-upload-tos.sh
-
-# Documentation files (optional - uncomment if you don't want them)
-# GIST-UPLOAD-INSTRUCTIONS.md
-
+.SRCINFO.new
+test-*.js
