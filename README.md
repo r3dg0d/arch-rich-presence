@@ -18,9 +18,21 @@ A Discord Rich Presence client for Arch Linux with Hyprland that shows what you'
 - Arch Linux (or other Linux distros)
 - Hyprland (or other Wayland/X11 compositors)
 - Node.js 18+ (`sudo pacman -S nodejs npm`)
-- Discord Desktop Application (must be running)
+- **Discord client with arRPC support** (see below)
 - `hyprctl` (included with Hyprland) or `xdotool` for window tracking
 - `notify-send` (usually in `libnotify` package) for notifications
+
+### ⚠️ Important: Discord Desktop App Requirement
+
+**The official Discord desktop app does NOT support Rich Presence on Linux.**
+
+You **must** use a Discord client with arRPC (Alternative Rich Presence Client) support:
+
+- **vesktop** (recommended): `yay -S vesktop` or `paru -S vesktop`
+- **WebCord**: `yay -S webcord` or `paru -S webcord`
+- **Discord with arRPC**: Install arRPC separately and configure it
+
+Without arRPC support, Rich Presence will not work, even if the service runs without errors!
 
 ## Installation
 
@@ -65,8 +77,26 @@ After installation:
    chmod +x install.sh
    ./install.sh
    ```
+   
+   The installer will:
+   - Check for Node.js
+   - Install dependencies
+   - Create config file
+   - Set up systemd service with correct paths
+   - Create command symlinks in `~/.local/bin`
+   - Enable the service for autostart
 
-3. **Configure Discord Application:**
+3. **Install a Discord client with arRPC support:**
+   ```bash
+   # Recommended: vesktop
+   yay -S vesktop
+   # Or WebCord
+   yay -S webcord
+   ```
+   
+   **Important**: The official Discord desktop app does NOT support Rich Presence on Linux. You must use vesktop, WebCord, or another client with arRPC support.
+
+4. **Configure Discord Application:**
    - Go to https://discord.com/developers/applications
    - Create a new application or select an existing one
    - Go to "Rich Presence" → "Art Assets"
@@ -75,9 +105,9 @@ After installation:
      - `active` (small image, 128x128px) - shown when Rich Presence is active
      - `privacymode` (small image, 128x128px) - shown in privacy mode
    - Copy the **Application ID**
-   - Edit `config.json` (located at `~/.config/arch-rich-presence/config.json` for AUR install, or in the project directory for manual install) and paste the Application ID in `discord.clientId`
+   - Edit `~/.config/arch-rich-presence/config.json` and paste the Application ID in `discord.clientId`
 
-4. **Set up shell hook for real-time command tracking (optional but recommended):**
+5. **Set up shell hook for real-time command tracking (optional but recommended):**
    
    **AUR Installation:**
    ```bash
@@ -93,10 +123,12 @@ After installation:
    
    This enables real-time command tracking. Without it, commands only update when you exit your terminal.
 
-5. **Start the service:**
+6. **Start the service:**
    ```bash
    systemctl --user start arch-rich-presence
    ```
+   
+   Make sure your Discord client (vesktop/WebCord) is running before starting the service!
 
 ## Configuration
 
@@ -264,10 +296,12 @@ systemctl --user disable arch-rich-presence
 
 ### Rich Presence not showing
 
-1. Make sure Discord desktop app is running
-2. Check that your Application ID is correct in `config.json`
-3. Verify the service is running: `systemctl --user status arch-rich-presence`
-4. Check logs: `journalctl --user -u arch-rich-presence -n 50`
+1. **Most common issue**: Make sure you're using a Discord client with arRPC support (vesktop, WebCord, etc.). The official Discord desktop app does NOT work!
+2. Make sure your Discord client is running
+3. Check that your Application ID is correct in `config.json`
+4. Verify the service is running: `systemctl --user status arch-rich-presence`
+5. Check logs: `journalctl --user -u arch-rich-presence -n 50`
+6. Look for "Connected to Discord!" in the logs - if you don't see this, the client may not support arRPC
 
 ### Window title not updating
 

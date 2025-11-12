@@ -1,12 +1,11 @@
 [Unit]
 Description=Arch Linux Discord Rich Presence
 After=network.target
-Wants=discord.service
 
 [Service]
 Type=simple
-WorkingDirectory=%h/Documents/arch-rich-presence
-ExecStart=/usr/bin/node %h/Documents/arch-rich-presence/src/index.js
+WorkingDirectory=SCRIPT_DIR_PLACEHOLDER
+ExecStart=NODE_PATH_PLACEHOLDER SCRIPT_DIR_PLACEHOLDER/src/index.js
 Restart=on-failure
 RestartSec=5
 Environment="NODE_ENV=production"
